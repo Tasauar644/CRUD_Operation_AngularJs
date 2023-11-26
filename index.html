@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.rawgit.com/danialfarid/ng-file-upload/master/dist/ng-file-upload-shim.min.js"></script>
+    <script src="https://cdn.rawgit.com/danialfarid/ng-file-upload/master/dist/ng-file-upload.min.js"></script>
+    <script src="app.js"></script>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/style.css'>
+    <title> Angular JS Form</title>
+</head>
+<body ng-app="myApp" ng-controller="formController">   
+
+
+    <div id="fullFormDiv">
+        <form method="post" id="form" autocomplete="off">
+            <label class="labelClass" for="firstName">First Name:</label>
+            <input type="text" id="firstNameId" name="firstName" class="user"  ng-style="{'border-color': firstNameBorderColor}"placeholder="Enter your first name" ng-model="firstName" ng-keyup="firstNameVerify()">
+            <br>
+            <span id="spanFirstName"style="visibility: hidden;color: red;margin-left: 105px;" ng-style="{'visibility': spanFirstNameVisibility, 'color':firstNameBorderColor,}">This is not a valid name</span>
+            <br>
+            <label class="labelClass" for="lastName">Last Name:</label>
+            <input type="text" id="lastNameId" style="margin-top: 9px;" ng-style="{'border-color': lastNameBorderColor}" ng-model="lastName" name="lastName" class="user" placeholder="Enter your last name" ng-keyup="lastNameVerify()">
+            <br>
+            <span id="spanLastName"  ng-style="{'visibility': spanLastNameVisibility, 'color':lastNameBorderColor,}" style="visibility: hidden;color: red;margin-left: 105px;";>This is not a valid name</span>
+            <br>
+            <label class="labelClass" for="userName">User Name:</label>
+            <input type="text" style="margin-top: 9px;" id="userName" name="userName" class="user" ng-style="{'border-color': userNameBorderColor}"  placeholder="Enter your User Name" ng-model="userName" ng-keyup="userNameVerify()">
+            <br>
+            <span id="spanUserName" style="visibility: hidden;color: red;margin-left: 105px;"ng-style="{'visibility': spanUserNameVisibility, 'color':userNameBorderColor}" >This is not a valid user name</span>
+            <br>
+            <label class="labelClass" for="userEmail" style="margin-right:54px;">Email:</label>
+            <input type="email" id="userEmail" style="margin-top: 9px;" name="userEmail" class="user" ng-style="{'border-color': emailBorderColor}" ng-model="email"placeholder="Enter your Email Address"  ng-model="email" ng-keyup="emailVerify()">
+            <br>
+            <span id="spanEmailAddress" style="visibility: hidden;margin-left:105px;color: red;" ng-style="{'visibility': spanEmailVisibility, 'color':EmailBorderColor}">This is not a valid email id</span>
+            <br>
+            <label class="labelClass" for="userAge" style="margin-right:65px;">Age:</label>
+            <input type="number" style="margin-top: 9px;" id="userAge" name="userAge" class="user" ng-style="{'border-color': ageBorderColor}" ng-model="age"placeholder="Enter Age" ng-keyup="ageVerify()">
+            <br>
+            <span id="spanAge" style="visibility: hidden;color: red;margin-left: 105px;" ng-style="{'visibility': spanAgeVisibility, 'color':ageBorderColor}" >This is not a valid age</span>
+            <br>
+            <label class="labelClass" for="userPhoneNumber" style="margin-right:40px;">Number:</label>
+            <input type="text" style="margin-top: 9px;" id="userPhoneNumber" name="userPhoneNumber" class="user" ng-style="{'border-color': phoneNumberBorderColor}" ng-model="phoneNumber" placeholder="Enter phone Number." ng-keyup="phoneNumberVerify()">
+            <br>
+            <span id="spanPhoneNumber" style="visibility: hidden;color: red;margin-left: 105px;" ng-style="{'visibility': spanPhoneNumberVisibility, 'color':phoneNumberBorderColor}">This is not a valid phone number</span>
+            <br>
+            <label class="labelClass" for="userAddress" style="margin-right:40px;vertical-align: text-bottom;">Address:</label>
+            <input placeholder="Enter your Address here" class="user" id="userAddress" name="userAddress" style="margin-top: 9px;"  ng-style="{'border-color': addressBorderColor}" ng-model="address" ng-keyup="addressVerify()"></input>
+            <br>
+            <span id="spanAddress" style="visibility: hidden;color:red;margin-left: 105px;" ng-style="{'visibility': spanAddressVisibility, 'color':addressBorderColor}">fill up the address</span>
+            <br>
+            <label class="labelClass" for="userPassword" style="margin-right:33px;">Password:</label>
+            <input type="password" style="margin-top: 7px;margin-bottom: 10px;" id="userPassword" name="userPassword" class="user"   ng-style="{'border-color': passwordBorderColor}" ng-model="password" placeholder="Enter password." ng-keyup="passwordVerify()">
+            <span id="spanPassword" style="color: red; display: none; margin-top: 7px; margin-left: 105px;"  ng-style="{'display': spanPasswordVisibility, 'color':passwordBorderColor}">
+            Password must be 8 characters long, less than 12, one capital alphabet, one small alphabet, and one special character
+            </span>
+            <br>
+            <label for="imageUpdate" style="margin-bottom: 10px;margin-top: 30px; vertical-align: top;;">Select Image</label>
+            <img ng-src="{{imageSource}}" style="margin-left: 22px;margin-top: 20px;height: 50px;width: 50px;" alt="an image" id="imgsrc">
+            <br>
+            <input type="file" accept="image/jpeg,image/jpg" name="imageInput" id="imageUpdate"ng-model="selectedFile" ngf-select="newImageUpdate($files)" />
+            <span id="spanImage" ng-show="showImageSpan" style="color: red; margin-left: 105px;">Image must be less than 100kb</span>
+            <button  ng-disabled="isDisabled" value="Submit" type="submit" id="submitButton" style="margin-top: 5px;margin-left: 110px;" ng-click="submitButton()" >Submit</button>
+            <button    id="clear" style="margin-left: 20px;margin-top: 5px;" ng-click="clearInputFields()" >Clear All</button>
+
+        </form>
+
+    </div>
+
+    <div id="finalForm">
+        <table id="table">
+            <thead>
+                <tr>
+                    <th id>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Number</th>
+                    <th>Age</th>
+                    <th>Address</th>
+                    <th>Image</th>
+                    <th >Actions</th>
+                </tr>
+            </thead>
+          <tr ng-repeat="x in fetchedData">
+            <td>{{x.Personid}}</td>
+            <td>{{x.FirstName}}</td>
+            <td>{{x.LastName}}</td>
+            <td>{{x.UserName}}</td>
+            <td>{{x.Email}}</td>
+            <td>{{x.PhoneNumber}}</td>
+            <td>{{x.Age}}</td>
+            <td>{{x.Address}}</td>
+            <td><img ng-src="{{x.imagebase}}"style="height: 50px;width:50px;"/></td>
+            <td><button ng-click="updateButton(x.Personid)">update</button>
+                <br>
+                <button ng-click="deleteButton(x.Personid)" style="margin-top: 5px;">Delete</button>
+                </td>
+          </tr>
+        </table>
+    </div>
+    
+</body>
+</html>
